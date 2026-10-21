@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenGrid – Varianten im Vergleich</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0..1,0&display=block">
+
+  <link rel="stylesheet" href="styles.css?v=31ad82c9">
+  <link rel="stylesheet" href="variants.css?v=e100a745">
+</head>
+<body>
+
+  <!-- Vergleichsseite des Mockups (nicht Teil der App) -->
+  <main class="vx">
+    <header class="vx-head">
+      <a class="og-back" href="index.html"><span class="material-symbols-outlined icon icon--small" aria-hidden="true">arrow_back</span>Übersicht</a>
+      <h1>Drei Varianten</h1>
+      <p class="body-large text-secondary">Alle Varianten setzen dieselben Anforderungen um (US01–US22, US-NFR01–06) und nutzen dieselben Bausteine und Beispieldaten.
+        Sie unterscheiden sich in Navigation, Informationsdichte und Stil. Die Vorschauen laufen live – zum Ausprobieren die Variante öffnen.</p>
+    </header>
+
+    <section class="vx-variant" aria-labelledby="va-title">
+      <div class="vx-variant__head">
+        <h2 id="va-title"><span class="vx-variant__letter">A</span> · Reiter</h2>
+        <a class="btn btn--filled" href="variante-a.html">Variante A öffnen</a>
+      </div>
+      <dl class="vx-facts">
+        <div><dt>Navigation</dt><dd>Reiter oben (Home · Live · Historie · Tippspiel), Profil im Avatar-Menü. Mobil: Navigation Bar unten.</dd></div>
+        <div><dt>Dichte</dt><dd>Mittel – Karten im Raster, eine Sache pro Karte. Werbeflächen bleiben wie im bisherigen Entwurf.</dd></div>
+        <div><dt>Stil</dt><dd>Material 3 wie bisher, F1-Schrift nur in der Willkommens-Überschrift und in Kennzahlen.</dd></div>
+        <div><dt>Passt, wenn …</dt><dd>… die App vertraut und schnell umsetzbar sein soll. Kleinster Schritt vom aktuellen Stand.</dd></div>
+      </dl>
+      <div class="vx-previews">
+        <div class="vx-frame vx-frame--desktop"><span>Desktop 1280 × 800</span><div class="vx-frame__box"><iframe src="variante-a.html?embed#home" title="Vorschau Variante A, Desktop" loading="lazy"></iframe></div></div>
+        <div class="vx-frame vx-frame--desktop"><span>Desktop · Live</span><div class="vx-frame__box"><iframe src="variante-a.html?embed#live" title="Vorschau Variante A, Live" loading="lazy"></iframe></div></div>
+        <div class="vx-frame vx-frame--mobile"><span>Mobil 390 × 844</span><div class="vx-frame__box"><iframe src="variante-a.html?embed#home" title="Vorschau Variante A, mobil" loading="lazy"></iframe></div></div>
+      </div>
+    </section>
+
+    <section class="vx-variant" aria-labelledby="vb-title">
+      <div class="vx-variant__head">
+        <h2 id="vb-title"><span class="vx-variant__letter">B</span> · Pit Wall</h2>
+        <a class="btn btn--filled" href="variante-b.html">Variante B öffnen</a>
+      </div>
+      <dl class="vx-facts">
+        <div><dt>Navigation</dt><dd>Navigation Rail links, darüber eine Statusleiste mit Rennstand, die auf jeder Seite sichtbar bleibt. Mobil: Leiste unten.</dd></div>
+        <div><dt>Dichte</dt><dd>Hoch – Dashboard; Live mit Tabelle, Karte und Ticker nebeneinander. Mobil per Umschalter Karte/Tabelle/Ticker.</dd></div>
+        <div><dt>Stil</dt><dd>Nüchtern und technisch wie eine Boxenmauer. Viel Information, wenig Deko.</dd></div>
+        <div><dt>Passt, wenn …</dt><dd>… „auf einen Blick“ (US-NFR03) im Vordergrund steht und viel am Desktop/Tablet genutzt wird.</dd></div>
+      </dl>
+      <div class="vx-previews">
+        <div class="vx-frame vx-frame--desktop"><span>Desktop 1280 × 800</span><div class="vx-frame__box"><iframe src="variante-b.html?embed#home" title="Vorschau Variante B, Desktop" loading="lazy"></iframe></div></div>
+        <div class="vx-frame vx-frame--desktop"><span>Desktop · Live</span><div class="vx-frame__box"><iframe src="variante-b.html?embed#live" title="Vorschau Variante B, Live" loading="lazy"></iframe></div></div>
+        <div class="vx-frame vx-frame--mobile"><span>Mobil 390 × 844</span><div class="vx-frame__box"><iframe src="variante-b.html?embed#live" title="Vorschau Variante B, mobil" loading="lazy"></iframe></div></div>
+      </div>
+    </section>
+
+    <section class="vx-variant" aria-labelledby="vc-title">
+      <div class="vx-variant__head">
+        <h2 id="vc-title"><span class="vx-variant__letter">C</span> · Broadcast</h2>
+        <a class="btn btn--filled" href="variante-c.html">Variante C öffnen</a>
+      </div>
+      <dl class="vx-facts">
+        <div><dt>Navigation</dt><dd>Menü-Drawer auf allen Größen, Live-Pill mit Runde oben, letzte Ticker-Meldung als Bauchbinde unten.</dd></div>
+        <div><dt>Dichte</dt><dd>Mittel – große Bühne mit Karte und „Timing Tower“, Rest darunter. Startseite mit wischbaren Story-Karten.</dd></div>
+        <div><dt>Stil</dt><dd>Wie eine TV-Grafik: kursive F1-Schrift für alle Überschriften, schräge Kanten, rote Akzentlinien.</dd></div>
+        <div><dt>Passt, wenn …</dt><dd>… OpenGrid ein „immersives Erlebnis“ (Einleitung) und eine starke eigene Marke sein soll.</dd></div>
+      </dl>
+      <div class="vx-previews">
+        <div class="vx-frame vx-frame--desktop"><span>Desktop 1280 × 800</span><div class="vx-frame__box"><iframe src="variante-c.html?embed#home" title="Vorschau Variante C, Desktop" loading="lazy"></iframe></div></div>
+        <div class="vx-frame vx-frame--desktop"><span>Desktop · Live</span><div class="vx-frame__box"><iframe src="variante-c.html?embed#live" title="Vorschau Variante C, Live" loading="lazy"></iframe></div></div>
+        <div class="vx-frame vx-frame--mobile"><span>Mobil 390 × 844</span><div class="vx-frame__box"><iframe src="variante-c.html?embed#home" title="Vorschau Variante C, mobil" loading="lazy"></iframe></div></div>
+      </div>
+    </section>
+
+    <section class="vx-variant" aria-labelledby="map-title">
+      <h2 class="title-large" id="map-title">Wo finde ich welche Anforderung?</h2>
+      <div class="og-card"><div class="og-card__body"><div class="og-table"><table>
+        <thead><tr><th scope="col">Feature</th><th scope="col">User Stories</th><th scope="col">Im Mockup</th></tr></thead>
+        <tbody>
+          <tr><td>Livedaten</td><td>US01–US06, NFR02, NFR03</td><td class="og-wrap">Live: Karte mit Fahrern und Flaggen (US01), Tabelle mit Position, Sektoren, Reifen (US02–04), Ticker (US05), Wetter (US06), Latenz-Chip (NFR02), Statuszeile + Lieblingsfahrer (NFR03). Aus der Tabelle direkt ins Fahrerprofil.</td></tr>
+          <tr><td>Historische Daten</td><td>US11–US18, NFR05</td><td class="og-wrap">Historie: Fahrerprofil (US11), Saisons/Ergebnisse (US12), WM-Verlauf (US13), Team je Jahr (US14), Fahrzeug + Motoren (US15), Länder (US16), Strecke (US17), Rundenzeiten (US18). Offline-Hinweis mit letztem Stand (NFR05) über „Mockup → Verbindung“.</td></tr>
+          <tr><td>Tippspiel</td><td>US07, US19–US22, NFR06</td><td class="og-wrap">Tippspiel: Tipp abgeben inkl. erweiterter Tipps (US19/20), Community-Tendenzen (US21), Countdown + Erinnerung (US22), Rangliste global/Gruppe, Auswertung mit Punkten (US07), Speichern auch offline (NFR06), Live-Wertung.</td></tr>
+          <tr><td>Profil</td><td>US08–US10, NFR01, NFR04</td><td class="og-wrap">Login (bestehende Seiten), Profil mit Lieblingsteam/-fahrer (US10), Abmelden (US09), Sicherheitshinweise (NFR04), alles responsiv von 390 px bis Desktop (NFR01).</td></tr>
+        </tbody>
+      </table></div></div></div>
+    </section>
+  </main>
+
+</body>
+</html>

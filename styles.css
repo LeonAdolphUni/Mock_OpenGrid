@@ -1837,13 +1837,22 @@ a {
 .hero {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--space-5);
   padding: var(--space-8) 0 var(--space-6);
+  text-align: center;
+}
+
+/* Bildmarke "OG" über der Überschrift → Image.asset / SvgPicture.asset */
+.hero__logo {
+  width: clamp(120px, 16vw, 200px);
+  height: auto;
 }
 
 .hero__title {
   display: flex;
   flex-direction: column;
+  align-items: center;
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 900;
@@ -1869,12 +1878,15 @@ a {
   height: 6px;
   background: var(--color-accent);
   transform: skewX(-24deg);
-  transform-origin: left;
 }
 
 /* Im Geräterahmen (390 px) feste Größen, unabhängig vom Browserfenster */
 .device .hero {
   padding: var(--space-6) 0 var(--space-4);
+}
+
+.device .hero__logo {
+  width: 120px;
 }
 
 .device .hero__kicker {

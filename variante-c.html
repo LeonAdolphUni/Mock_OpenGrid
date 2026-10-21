@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenGrid – Variante C · Broadcast</title>
+
+  <!-- Schrift + Icons (Google Fonts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0..1,0&display=block">
+
+  <link rel="stylesheet" href="styles.css?v=31ad82c9">
+  <link rel="stylesheet" href="variants.css?v=e100a745">
+  <script src="og-data.js?v=63ebca65" defer></script>
+  <script src="og-ui.js?v=f9dcd6df" defer></script>
+  <script src="app.js?v=7fc3de1a" defer></script>
+</head>
+<body class="vc">
+
+  <!-- =================================================================
+       Variante C – Broadcast
+       Scaffold(appBar: AppBar(leading: Menü, actions: [Live-Pill, Avatar]),
+                drawer: NavigationDrawer,
+                bottomSheet: Bauchbinde mit letzter Ticker-Meldung)
+       ================================================================= -->
+  <header class="vc-bar">
+    <button class="icon-btn" type="button" aria-label="Menü öffnen" aria-controls="vc-drawer" aria-expanded="false" data-drawer-open>
+      <span class="material-symbols-outlined icon" aria-hidden="true">menu</span>
+    </button>
+    <a class="brand" href="#home" aria-label="OpenGrid – Startseite">
+      <img class="brand__mark" src="logo-mark.svg" alt="" height="28">
+      <span class="brand__name" aria-hidden="true">Open<span class="brand__accent">Grid</span></span>
+    </a>
+    <span class="vc-bar__spacer"></span>
+    <a class="vc-bar__live" href="#live" data-nav="live">
+      <span class="live-dot" aria-hidden="true"></span><span>Live <span class="vc-bar__lap" data-live-lap></span></span>
+    </a>
+    <a class="avatar-btn" href="#profil" aria-label="Profil">
+      <span class="avatar"><span class="material-symbols-outlined icon" aria-hidden="true">person</span></span>
+    </a>
+  </header>
+
+  <div class="vc-scrim" data-drawer-scrim hidden></div>
+  <nav class="vc-drawer" id="vc-drawer" aria-label="Bereiche" hidden>
+    <div class="vc-drawer__head">
+      <img src="logo-mark.svg" alt="OpenGrid">
+      <button class="icon-btn" type="button" aria-label="Menü schließen" data-drawer-close>
+        <span class="material-symbols-outlined icon" aria-hidden="true">close</span>
+      </button>
+    </div>
+    <a class="vc-drawer__item" href="#home" data-nav="home"><span class="material-symbols-outlined icon" aria-hidden="true">home</span>Home</a>
+    <a class="vc-drawer__item" href="#live" data-nav="live"><span class="material-symbols-outlined icon" aria-hidden="true">sensors</span>Live</a>
+    <a class="vc-drawer__item" href="#historie" data-nav="historie"><span class="material-symbols-outlined icon" aria-hidden="true">history</span>Historie</a>
+    <a class="vc-drawer__item" href="#tippspiel" data-nav="tippspiel"><span class="material-symbols-outlined icon" aria-hidden="true">emoji_events</span>Tippspiel</a>
+    <a class="vc-drawer__item" href="#profil" data-nav="profil"><span class="material-symbols-outlined icon" aria-hidden="true">person</span>Profil</a>
+    <a class="vc-drawer__item" href="desktop-login.html"><span class="material-symbols-outlined icon" aria-hidden="true">logout</span>Abmelden</a>
+  </nav>
+
+  <main class="vc-content">
+    <div data-view></div>
+  </main>
+
+  <!-- Bauchbinde: letzte Meldung aus dem Live-Ticker -->
+  <a class="vc-lower" href="#live" aria-label="Zum Live-Ticker">
+    <span class="vc-lower__tag"><span class="live-dot" aria-hidden="true"></span><span>Ticker</span></span>
+    <span class="vc-lower__text" data-live="ticker-line"></span>
+  </a>
+
+  <script>
+    /* Variante C: große Bühne, Timing Tower über der Karte, Story-Karten */
+    document.addEventListener('DOMContentLoaded', function () {
+      const ui = OG.ui;
+
+      // Drawer öffnen/schließen (Escape, Klick daneben, Auswahl)
+      const drawer = document.getElementById('vc-drawer');
+      const scrim = document.querySelector('[data-drawer-scrim]');
+      const opener = document.querySelector('[data-drawer-open]');
+      function setDrawer(open) {
+        drawer.hidden = !open;
+        scrim.hidden = !open;
+        opener.setAttribute('aria-expanded', String(open));
+        if (open) drawer.querySelector('.vc-drawer__item').focus();
+        else opener.focus();
+      }
+      opener.addEventListener('click', () => setDrawer(true));
+      scrim.addEventListener('click', () => setDrawer(false));
+      drawer.querySelector('[data-drawer-close]').addEventListener('click', () => setDrawer(false));
+      drawer.addEventListener('click', (e) => e.target.closest('.vc-drawer__item') && setDrawer(false));
+      document.addEventListener('keydown', (e) => e.key === 'Escape' && !drawer.hidden && setDrawer(false));
+
+      // Rundenanzeige in der Live-Pill
+      const lap = document.querySelector('[data-live-lap]');
+      OGLive.subscribe((s) => (lap.textContent = `· R${s.lap}/${s.totalLaps}`));
+
+      OG.start({
+        name: 'Variante C',
+        layouts: {
+          home(ctx) {
+            ctx.view.innerHTML = `<div class="og-page">
+              <section class="vc-hero">
+                ${ui.hero()}
+                <div class="vc-hero__live">
+                  <h2>Jetzt live · ${OG_DATA.TRACK[OG_DATA.LIVE_TRACK].gp}</h2>
+                  <div class="og-status" data-live="status" data-short="true"></div>
+                  <div data-live="fav"></div>
+                  <a class="btn btn--filled" href="#live"><span class="material-symbols-outlined icon icon--small" aria-hidden="true">sensors</span>Rennen verfolgen</a>
+                </div>
+              </section>
+              <h2 class="vc-section-title">Dein Rennwochenende</h2>
+              <div class="vc-rail">
+                ${ui.tipCard()}${ui.favoritesCard()}${ui.lastRaceCard()}
+              </div>
+              <h2 class="vc-section-title">Weltmeisterschaft</h2>
+              <div class="og-grid og-grid--2">
+                ${ui.standingsCard('drivers', 5)}${ui.standingsCard('teams', 5)}
+              </div>
+              ${ui.note()}
+            </div>`;
+            ui.mountLive(ctx, ctx.view);
+          },
+          live(ctx) {
+            ctx.view.innerHTML = `<div class="og-page">
+              ${ui.pageHead('Live', 'Circuit of the Americas, Austin · Simulation', { kicker: '<span class="live-dot" aria-hidden="true"></span>Grand Prix der USA' })}
+              <section class="vc-stage">
+                <div class="vc-tower">
+                  <div class="vc-tower__head"><span>Runde <span data-tower-lap></span></span><span>Abstand</span></div>
+                  <div data-live="tower"></div>
+                </div>
+                <div class="vc-stage__map">
+                  <div data-live="map" data-size="large"></div>
+                  <div class="vc-stage__fav" data-live="fav"></div>
+                  <div class="vc-stage__status og-status" data-live="status" data-short="true"></div>
+                </div>
+              </section>
+              <div class="vc-live-grid">
+                ${ui.card('Ticker', '<div data-live="ticker"></div>', { icon: 'feed' })}
+                ${ui.card('Wetter', '<div data-live="weather"></div>', { icon: 'partly_cloudy_day' })}
+              </div>
+              <details class="vc-full">
+                <summary><span class="material-symbols-outlined icon" aria-hidden="true">table</span>Komplette Tabelle mit Sektoren</summary>
+                <div data-live="timing"></div>
+              </details>
+              ${ui.note()}
+            </div>`;
+            const towerLap = ctx.view.querySelector('[data-tower-lap]');
+            ui.mountLive(ctx, ctx.view, { onState: (s) => (towerLap.textContent = `${s.lap}/${s.totalLaps}`) });
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

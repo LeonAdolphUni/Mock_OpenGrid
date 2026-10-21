@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenGrid – Variante B · Pit Wall</title>
+
+  <!-- Schrift + Icons (Google Fonts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0..1,0&display=block">
+
+  <link rel="stylesheet" href="styles.css?v=31ad82c9">
+  <link rel="stylesheet" href="variants.css?v=e100a745">
+  <script src="og-data.js?v=63ebca65" defer></script>
+  <script src="og-ui.js?v=f9dcd6df" defer></script>
+  <script src="app.js?v=7fc3de1a" defer></script>
+</head>
+<body class="vb">
+
+  <!-- =================================================================
+       Variante B – Pit Wall
+       Row([NavigationRail, Expanded(Column([Statusleiste, Seite]))])
+       Die Statusleiste zeigt den Rennstand immer an (US-NFR03).
+       Schmal (< 760 px): Rail wird zur NavigationBar unten.
+       ================================================================= -->
+  <div class="vb-shell">
+    <nav class="vb-rail" aria-label="Bereiche">
+      <a class="vb-rail__logo" href="#home" aria-label="OpenGrid – Startseite"><img src="logo-mark.svg" alt=""></a>
+      <a class="vb-rail__item" href="#home" data-nav="home">
+        <span class="nav-bar__indicator"><span class="material-symbols-outlined icon" aria-hidden="true">dashboard</span></span>Home
+      </a>
+      <a class="vb-rail__item" href="#live" data-nav="live">
+        <span class="nav-bar__indicator"><span class="material-symbols-outlined icon" aria-hidden="true">sensors</span><span class="live-dot" aria-hidden="true"></span></span>Live
+      </a>
+      <a class="vb-rail__item" href="#historie" data-nav="historie">
+        <span class="nav-bar__indicator"><span class="material-symbols-outlined icon" aria-hidden="true">history</span></span>Historie
+      </a>
+      <a class="vb-rail__item" href="#tippspiel" data-nav="tippspiel">
+        <span class="nav-bar__indicator"><span class="material-symbols-outlined icon" aria-hidden="true">emoji_events</span></span>Tippspiel
+      </a>
+      <span class="vb-rail__spacer"></span>
+      <a class="vb-rail__item" href="#profil" data-nav="profil">
+        <span class="nav-bar__indicator"><span class="material-symbols-outlined icon" aria-hidden="true">account_circle</span></span>Profil
+      </a>
+    </nav>
+
+    <div class="vb-main">
+      <header class="vb-top">
+        <span class="vb-top__title" data-nav-title></span>
+        <div class="og-status" data-live="status"></div>
+      </header>
+      <main class="vb-content">
+        <div data-view></div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    /* Variante B: dichtes Dashboard, alles Wichtige ohne Scrollen */
+    document.addEventListener('DOMContentLoaded', function () {
+      const ui = OG.ui;
+      OG.start({
+        name: 'Variante B',
+        layouts: {
+          home(ctx) {
+            ctx.view.innerHTML = `<div class="vb-dash">
+              <div class="vb-dash__welcome">
+                <h1>Willkommen bei Open<span class="brand__accent">Grid</span></h1>
+                <a class="btn btn--filled" href="#live"><span class="material-symbols-outlined icon icon--small" aria-hidden="true">sensors</span>Live-Rennen öffnen</a>
+              </div>
+              ${ui.card('Livekarte', '<div data-live="map" data-legend="off"></div><div data-live="fav"></div>', { icon: 'map', cls: 'vb-dash__map og-card--live' })}
+              ${ui.card('Rennstand', '<div data-live="tower"></div>', { icon: 'format_list_numbered', cls: 'vb-dash__tower', action: '<a class="btn btn--text" href="#live">Alle Daten</a>' })}
+              ${ui.card('Ticker', '<div data-live="ticker" data-limit="12"></div>', { icon: 'feed', cls: 'vb-dash__ticker' })}
+              <div class="vb-dash__tip">${ui.tipCard()}</div>
+              <div class="vb-dash__fav">${ui.favoritesCard()}</div>
+              <div class="vb-dash__standings">${ui.standingsCard('drivers', 5)}</div>
+            </div>`;
+            ui.mountLive(ctx, ctx.view);
+          },
+          live(ctx) {
+            ctx.view.innerHTML = `<div class="og-page">
+              <div class="vb-live" data-show="map">
+                <div class="vb-segment" role="group" aria-label="Ansicht wählen">
+                  <button type="button" data-show="map" aria-pressed="true">Karte</button>
+                  <button type="button" data-show="table" aria-pressed="false">Tabelle</button>
+                  <button type="button" data-show="ticker" aria-pressed="false">Ticker</button>
+                </div>
+                ${ui.card('Live-Tabelle', '<div data-live="timing"></div>', { icon: 'format_list_numbered', cls: 'vb-live__table' })}
+                ${ui.card('Livekarte', '<div data-live="map"></div>', { icon: 'map', cls: 'vb-live__map' })}
+                <div class="vb-live__fav" data-live="fav"></div>
+                ${ui.card('Wetter', '<div data-live="weather"></div>', { icon: 'partly_cloudy_day', cls: 'vb-live__weather' })}
+                ${ui.card('Ticker', '<div data-live="ticker"></div>', { icon: 'feed', cls: 'vb-live__ticker' })}
+              </div>
+              ${ui.note()}
+            </div>`;
+            // Schmal: Umschalter Karte / Tabelle / Ticker → SegmentedButton
+            const live = ctx.view.querySelector('.vb-live');
+            live.querySelectorAll('.vb-segment button').forEach(function (button) {
+              button.addEventListener('click', function () {
+                live.dataset.show = button.dataset.show;
+                live.querySelectorAll('.vb-segment button').forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+              });
+            });
+            ui.mountLive(ctx, ctx.view);
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenGrid – Variante A · Reiter</title>
+
+  <!-- Schrift + Icons (Google Fonts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0..1,0&display=block">
+
+  <link rel="stylesheet" href="styles.css?v=31ad82c9">
+  <link rel="stylesheet" href="variants.css?v=e100a745">
+  <!-- Reihenfolge wichtig: Daten → Komponenten/Router → Menüs -->
+  <script src="og-data.js?v=63ebca65" defer></script>
+  <script src="og-ui.js?v=f9dcd6df" defer></script>
+  <script src="app.js?v=7fc3de1a" defer></script>
+</head>
+<body class="va">
+
+  <!-- =================================================================
+       Variante A – Reiter
+       AppBar(title: Logo, bottom: TabBar([Home, Live, Historie, Tippspiel]),
+              actions: [MenuAnchor(Avatar)])
+       Schmal (< 760 px): NavigationBar unten statt Reitern
+       ================================================================= -->
+  <header class="top-app-bar top-app-bar--desktop">
+    <a class="brand" href="#home" aria-label="OpenGrid – Startseite">
+      <img class="brand__mark" src="logo-mark.svg" alt="" height="28">
+      <span class="brand__name" aria-hidden="true">Open<span class="brand__accent">Grid</span></span>
+    </a>
+
+    <div class="top-app-bar__center">
+      <nav class="tabs" aria-label="Bereiche">
+        <a class="tab" href="#home" data-nav="home"><span class="tab__label">Home</span></a>
+        <a class="tab" href="#live" data-nav="live"><span class="tab__label"><span class="live-dot" aria-hidden="true"></span>Live</span></a>
+        <a class="tab" href="#historie" data-nav="historie"><span class="tab__label">Historische Daten</span></a>
+        <a class="tab" href="#tippspiel" data-nav="tippspiel"><span class="tab__label">Tippspiel</span></a>
+      </nav>
+    </div>
+
+    <div class="top-app-bar__end menu-anchor">
+      <button class="avatar-btn" type="button" aria-label="Profilmenü"
+              aria-haspopup="menu" aria-expanded="false" aria-controls="profile-menu" data-menu-trigger>
+        <span class="avatar"><span class="material-symbols-outlined icon" aria-hidden="true">person</span></span>
+      </button>
+      <ul class="menu menu--end" id="profile-menu" role="menu" aria-label="Profil" hidden>
+        <li role="none">
+          <a class="menu__item" role="menuitem" href="#profil">
+            <span class="material-symbols-outlined icon" aria-hidden="true">person</span>Profil
+          </a>
+        </li>
+        <li role="none">
+          <a class="menu__item" role="menuitem" href="#profil">
+            <span class="material-symbols-outlined icon" aria-hidden="true">settings</span>Einstellungen
+          </a>
+        </li>
+        <li class="menu__divider" role="separator"></li>
+        <li role="none">
+          <a class="menu__item" role="menuitem" href="desktop-login.html">
+            <span class="material-symbols-outlined icon" aria-hidden="true">logout</span>Abmelden
+          </a>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Body → Row([AdSlot, Expanded(Seite), AdSlot]); unter 1100 px ohne Werbeflächen -->
+  <div class="layout">
+    <aside class="ad-slot" aria-label="Werbefläche">
+      <span class="ad-slot__code">WB</span>
+      <span class="label-medium">Werbefläche</span>
+      <span class="body-small">160 × 600</span>
+    </aside>
+
+    <main class="content">
+      <div data-view></div>
+    </main>
+
+    <aside class="ad-slot" aria-label="Werbefläche">
+      <span class="ad-slot__code">WB</span>
+      <span class="label-medium">Werbefläche</span>
+      <span class="body-small">160 × 600</span>
+    </aside>
+  </div>
+
+  <!-- Navigation Bar (nur schmal) → NavigationBar(destinations: [...]) -->
+  <nav class="nav-bar va-navbar" aria-label="Bereiche">
+    <a class="nav-bar__item" href="#home" data-nav="home">
+      <span class="nav-bar__indicator"><span class="material-symbols-outlined icon" aria-hidden="true">home</span></span>Home
+    </a>
+    <a class="nav-bar__item" href="#live" data-nav="live">
+      <span class="nav-bar__indicator"><span class="material-symbols-outlined icon" aria-hidden="true">sensors</span></span>
+      <span class="nav-bar__label"><span class="live-dot" aria-hidden="true"></span>Live</span>
+    </a>
+    <a class="nav-bar__item" href="#historie" data-nav="historie">
+      <span class="nav-bar__indicator"><span class="material-symbols-outlined icon" aria-hidden="true">history</span></span>Historie
+    </a>
+    <a class="nav-bar__item" href="#tippspiel" data-nav="tippspiel">
+      <span class="nav-bar__indicator"><span class="material-symbols-outlined icon" aria-hidden="true">emoji_events</span></span>Tippspiel
+    </a>
+    <a class="nav-bar__item" href="#profil" data-nav="profil">
+      <span class="nav-bar__indicator"><span class="material-symbols-outlined icon" aria-hidden="true">person</span></span>Profil
+    </a>
+  </nav>
+
+  <script>
+    /* Variante A: Startseite und Live-Ansicht als Karten-Raster */
+    document.addEventListener('DOMContentLoaded', function () {
+      const ui = OG.ui;
+      OG.start({
+        name: 'Variante A',
+        layouts: {
+          home(ctx) {
+            ctx.view.innerHTML = `<div class="og-page">
+              ${ui.hero()}
+              <div class="og-grid og-grid--home">
+                ${ui.liveNowCard()}${ui.tipCard()}${ui.favoritesCard()}
+                ${ui.standingsCard('drivers', 5)}${ui.standingsCard('teams', 5)}${ui.lastRaceCard()}
+              </div>
+              ${ui.note()}
+            </div>`;
+            ui.mountLive(ctx, ctx.view);
+          },
+          live(ctx) {
+            ctx.view.innerHTML = `<div class="og-page">
+              ${ui.pageHead('Live', 'Circuit of the Americas, Austin · Simulation')}
+              <div class="og-status" data-live="status"></div>
+              <div class="va-live">
+                ${ui.card('Livekarte', '<div data-live="map"></div>', { icon: 'map', cls: 'va-live__map' })}
+                ${ui.card('Dein Fahrer', '<div data-live="fav"></div>', { icon: 'favorite', cls: 'va-live__fav' })}
+                ${ui.card('Wetter an der Strecke', '<div data-live="weather"></div>', { icon: 'partly_cloudy_day', cls: 'va-live__weather' })}
+                ${ui.card('Live-Tabelle', '<div data-live="timing"></div>', { icon: 'format_list_numbered', cls: 'va-live__table' })}
+                ${ui.card('Live-Ticker', '<div data-live="ticker"></div>', { icon: 'feed', cls: 'va-live__ticker' })}
+              </div>
+              ${ui.note()}
+            </div>`;
+            ui.mountLive(ctx, ctx.view);
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

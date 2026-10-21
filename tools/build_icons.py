@@ -295,7 +295,8 @@ def stamp_versions():
     """Cache-Busting: hängt an alle Verweise auf icons.svg, styles.css und die
     Skripte einen Inhalts-Hash an (z. B. styles.css?v=1a2b3c4d), damit der
     Browser nach einer Änderung nicht die alte Datei aus dem Cache zeigt."""
-    for asset in ("icons.svg", "styles.css", "config.js", "api.js", "live.js", "history.js", "app.js"):
+    for asset in ("icons.svg", "styles.css", "variants.css", "config.js", "api.js", "live.js",
+                  "history.js", "og-data.js", "og-ui.js", "app.js"):
         version = hashlib.sha1((ROOT / asset).read_bytes()).hexdigest()[:8]
         pattern = re.compile(re.escape(asset) + r'(\?v=[0-9a-f]+)?(?=[#"])')
         for page in ROOT.glob("*.html"):
