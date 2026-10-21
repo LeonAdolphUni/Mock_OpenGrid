@@ -1,0 +1,8 @@
+# Python-Caches der Werkzeuge in tools/
+__pycache__/
+*.pyc
+
+# Betriebssystem-Dateien
+Thumbs.db
+desktop.ini
+.DS_Store

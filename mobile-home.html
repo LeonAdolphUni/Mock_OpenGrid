@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenGrid – Startseite (Mobile)</title>
+
+  <!-- Schrift + Icons (Google Fonts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0..1,0&display=block">
+
+  <link rel="stylesheet" href="styles.css?v=fac498f5">
+  <!-- Reihenfolge wichtig: Konfiguration → Datenzugriff → Reiter → Oberfläche -->
+  <script src="config.js?v=714d9022" defer></script>
+  <script src="api.js?v=a3aeb802" defer></script>
+  <script src="live.js?v=827eb0d1" defer></script>
+  <script src="history.js?v=6e488c9e" defer></script>
+  <script src="app.js?v=7fc3de1a" defer></script>
+</head>
+<body class="device-page">
+
+  <!-- Geräterahmen 390 × 844 (nur Mockup) -->
+  <div class="device">
+    <div class="device__safe-top" aria-hidden="true"></div>
+
+    <!-- =================================================================
+         Scaffold(
+           appBar: AppBar(title: Logo + 'OpenGrid', actions: [Avatar]),
+           body: IndexedStack([LiveView, HistoryView]) + Request-Log,
+           bottomNavigationBar: NavigationBar([Live, Historische Daten]))
+         ================================================================= -->
+    <div class="screen">
+
+      <!-- App-Bar -->
+      <header class="top-app-bar">
+        <a class="brand" href="mobile-home.html" aria-label="OpenGrid – Startseite">
+          <img class="brand__mark" src="logo-mark.svg" alt="" height="28">
+          <span class="brand__name" aria-hidden="true">Open<span class="brand__accent">Grid</span></span>
+        </a>
+
+        <div class="menu-anchor">
+          <button class="avatar-btn" type="button" aria-label="Profilmenü"
+                  aria-haspopup="menu" aria-expanded="false" aria-controls="profile-menu" data-menu-trigger>
+            <span class="avatar"><span class="material-symbols-outlined icon" aria-hidden="true">person</span></span>
+          </button>
+          <ul class="menu menu--end" id="profile-menu" role="menu" aria-label="Profil" hidden>
+            <li role="none">
+              <button class="menu__item" type="button" role="menuitem">
+                <span class="material-symbols-outlined icon" aria-hidden="true">person</span>Profil
+              </button>
+            </li>
+            <li role="none">
+              <button class="menu__item" type="button" role="menuitem">
+                <span class="material-symbols-outlined icon" aria-hidden="true">settings</span>Einstellungen
+              </button>
+            </li>
+            <li class="menu__divider" role="separator"></li>
+            <li role="none">
+              <a class="menu__item" role="menuitem" href="mobile-login.html">
+                <span class="material-symbols-outlined icon" aria-hidden="true">logout</span>Abmelden
+              </a>
+            </li>
+          </ul>
+        </div>
+      </header>
+
+      <!-- Scrollbarer Inhalt → ListView / CustomScrollView -->
+      <main class="screen__body">
+        <div class="screen__content">
+
+          <!-- Hinweis, solange USE_MOCK_DATA in config.js aktiv ist -->
+          <p class="mock-banner" data-mock-banner hidden>
+            <span class="material-symbols-outlined icon" aria-hidden="true">science</span>
+            <span><strong>Beispieldaten</strong> – keine echten Requests (<code>USE_MOCK_DATA</code>).</span>
+          </p>
+
+          <!-- Reiter "Live" (live.js) -->
+          <section class="panel" id="panel-live" data-tab-panel="live" aria-labelledby="live-heading">
+            <div class="panel-head">
+              <h1 class="headline-small" id="live-heading">Live</h1>
+              <button class="btn btn--tonal" type="button" data-live-toggle-all>
+                <span class="material-symbols-outlined icon icon--small" aria-hidden="true" data-icon>play_arrow</span>
+                <span data-label>Alle starten</span>
+              </button>
+            </div>
+            <div class="endpoint-grid" data-live-list></div>
+          </section>
+
+          <!-- Reiter "Historische Daten" (history.js) -->
+          <section class="panel" id="panel-history" data-tab-panel="history" aria-labelledby="history-heading" hidden>
+            <div class="panel-head">
+              <h1 class="headline-small" id="history-heading">Historische Daten</h1>
+            </div>
+            <div class="endpoint-grid" data-history-list></div>
+          </section>
+
+          <!-- Request-Log (in beiden Reitern) -->
+          <details class="request-log" data-request-log>
+            <summary>Request-Log <span class="request-log__count">(<span data-log-count>0</span>)</span></summary>
+            <div class="request-log__body">
+              <div class="endpoint-card__actions">
+                <button class="btn btn--text" type="button" data-log-clear>
+                  <span class="material-symbols-outlined icon icon--small" aria-hidden="true">delete</span>Log leeren
+                </button>
+              </div>
+              <div class="request-log__table">
+                <table>
+                  <caption class="visually-hidden">Letzte 50 Requests, neueste zuerst</caption>
+                  <thead>
+                    <tr><th scope="col">Zeit</th><th scope="col">Endpunkt</th><th scope="col">Status</th><th scope="col">Dauer</th><th scope="col">Fehler</th></tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+                <p class="request-log__empty" data-log-empty>Noch keine Requests.</p>
+              </div>
+            </div>
+          </details>
+        </div>
+      </main>
+
+      <!-- Navigation Bar → NavigationBar(destinations: [Live, Historische Daten]) -->
+      <nav class="nav-bar" aria-label="Bereiche">
+        <button class="nav-bar__item" type="button" data-tab="live" aria-controls="panel-live">
+          <span class="nav-bar__indicator"><span class="material-symbols-outlined icon" aria-hidden="true">sensors</span></span>
+          Live
+        </button>
+        <button class="nav-bar__item" type="button" data-tab="history" aria-controls="panel-history">
+          <span class="nav-bar__indicator"><span class="material-symbols-outlined icon" aria-hidden="true">history</span></span>
+          Historische Daten
+        </button>
+      </nav>
+    </div>
+
+    <!-- Willkommensdialog im Geräterahmen → showDialog(AlertDialog(...)) -->
+    <div class="dialog-scrim dialog-scrim--contained" data-welcome-dialog hidden>
+      <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="welcome-title" aria-describedby="welcome-text" tabindex="-1">
+        <h2 class="headline-small" id="welcome-title">Willkommen bei OpenGrid</h2>
+        <p class="body-medium dialog__text" id="welcome-text">[Ein Satz zur Seite]</p>
+        <div class="dialog__actions">
+          <button class="btn btn--text" type="button" data-dialog-close>Los geht's</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mockup-Navigation (nur zum Durchklicken, nicht Teil der App) -->
+  <nav class="mockup-nav" aria-label="Mockup-Screens">
+    <a href="index.html">Übersicht</a>
+    <a href="desktop-home.html">Desktop · Start</a>
+    <a href="desktop-login.html">Desktop · Login</a>
+    <a href="mobile-home.html" aria-current="page">Mobile · Start</a>
+    <a href="mobile-login.html">Mobile · Login</a>
+    <a href="icons.html">Icons</a>
+  </nav>
+
+</body>
+</html>
