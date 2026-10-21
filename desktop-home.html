@@ -9,14 +9,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0..1,0&display=block">
 
-  <link rel="stylesheet" href="styles.css?v=fac498f5">
-  <!-- Reihenfolge wichtig: Konfiguration → Datenzugriff → Reiter → Oberfläche -->
-  <script src="config.js?v=714d9022" defer></script>
-  <script src="api.js?v=a3aeb802" defer></script>
-  <script src="live.js?v=827eb0d1" defer></script>
-  <script src="history.js?v=6e488c9e" defer></script>
+  <link rel="stylesheet" href="styles.css?v=6de7cabd">
+  <!-- Live und Historische Daten sind vorerst leer: config.js, api.js,
+       live.js und history.js werden hier noch nicht eingebunden -->
   <script src="app.js?v=7fc3de1a" defer></script>
 </head>
 <body>
@@ -24,7 +22,7 @@
   <!-- =================================================================
        App-Bar → AppBar(
          title: Row([Logo, Text('OpenGrid')]),
-         bottom/center: TabBar(tabs: [Live, Historische Daten]),
+         bottom/center: TabBar(tabs: [Home, Live, Historische Daten]),
          actions: [MenuAnchor(child: CircleAvatar)])
        ================================================================= -->
   <header class="top-app-bar top-app-bar--desktop">
@@ -38,7 +36,8 @@
     <div class="top-app-bar__center">
       <!-- Reiter (breite Fenster). Der aktive Reiter steht im URL-Hash. -->
       <nav class="tabs" aria-label="Bereiche">
-        <button class="tab" type="button" data-tab="live" data-tab-label="Live" aria-controls="panel-live"><span class="tab__label">Live</span></button>
+        <button class="tab" type="button" data-tab="home" data-tab-label="Home" aria-controls="panel-home"><span class="tab__label">Home</span></button>
+        <button class="tab" type="button" data-tab="live" data-tab-label="Live" aria-controls="panel-live"><span class="tab__label"><span class="live-dot" aria-hidden="true"></span>Live</span></button>
         <button class="tab" type="button" data-tab="history" data-tab-label="Historische Daten" aria-controls="panel-history"><span class="tab__label">Historische Daten</span></button>
       </nav>
 
@@ -46,11 +45,12 @@
       <div class="tabs-overflow menu-anchor">
         <button class="btn btn--text tabs-overflow__trigger" type="button"
                 aria-haspopup="menu" aria-expanded="false" aria-controls="tab-menu" data-menu-trigger>
-          <span data-tab-title>Live</span>
+          <span data-tab-title>Home</span>
           <span class="material-symbols-outlined icon" aria-hidden="true">arrow_drop_down</span>
         </button>
         <ul class="menu menu--start" id="tab-menu" role="menu" aria-label="Bereiche" hidden>
-          <li role="none"><button class="menu__item" type="button" role="menuitemradio" aria-checked="false" data-tab="live">Live<span class="material-symbols-outlined icon menu__check" aria-hidden="true">check</span></button></li>
+          <li role="none"><button class="menu__item" type="button" role="menuitemradio" aria-checked="false" data-tab="home">Home<span class="material-symbols-outlined icon menu__check" aria-hidden="true">check</span></button></li>
+          <li role="none"><button class="menu__item" type="button" role="menuitemradio" aria-checked="false" data-tab="live"><span class="live-dot" aria-hidden="true"></span>Live<span class="material-symbols-outlined icon menu__check" aria-hidden="true">check</span></button></li>
           <li role="none"><button class="menu__item" type="button" role="menuitemradio" aria-checked="false" data-tab="history">Historische Daten<span class="material-symbols-outlined icon menu__check" aria-hidden="true">check</span></button></li>
         </ul>
       </div>
@@ -97,56 +97,25 @@
       <span class="body-small">160 × 600</span>
     </aside>
 
-    <!-- Inhaltsbereich → TabBarView([LiveView, HistoryView]) + Request-Log -->
+    <!-- Inhaltsbereich → TabBarView([HomeView, LiveView, HistoryView]) -->
     <main class="content">
 
-      <!-- Hinweis, solange USE_MOCK_DATA in config.js aktiv ist -->
-      <p class="mock-banner" data-mock-banner hidden>
-        <span class="material-symbols-outlined icon" aria-hidden="true">science</span>
-        <span><strong>Beispieldaten</strong> – es werden keine echten Requests gesendet (<code>USE_MOCK_DATA</code> in config.js).</span>
-      </p>
-
-      <!-- Reiter "Live" → ListView aus Endpunkt-Karten (live.js) -->
-      <section class="panel" id="panel-live" data-tab-panel="live" aria-labelledby="live-heading">
-        <div class="panel-head">
-          <h1 class="headline-medium" id="live-heading">Live</h1>
-          <button class="btn btn--tonal" type="button" data-live-toggle-all>
-            <span class="material-symbols-outlined icon icon--small" aria-hidden="true" data-icon>play_arrow</span>
-            <span data-label>Alle starten</span>
-          </button>
+      <!-- Reiter "Home" → Willkommens-Überschrift (Startreiter nach dem Login) -->
+      <section class="panel" id="panel-home" data-tab-panel="home" aria-labelledby="home-heading">
+        <div class="hero">
+          <h1 class="hero__title" id="home-heading">
+            <span class="hero__kicker">Willkommen bei</span>
+            <span class="hero__brand">Open<span class="brand__accent">Grid</span></span>
+          </h1>
+          <span class="hero__stripe" aria-hidden="true"></span>
         </div>
-        <div class="endpoint-grid" data-live-list></div>
       </section>
 
-      <!-- Reiter "Historische Daten" → ListView aus Abfrage-Karten (history.js) -->
-      <section class="panel" id="panel-history" data-tab-panel="history" aria-labelledby="history-heading" hidden>
-        <div class="panel-head">
-          <h1 class="headline-medium" id="history-heading">Historische Daten</h1>
-        </div>
-        <div class="endpoint-grid" data-history-list></div>
-      </section>
+      <!-- Reiter "Live" – Inhalt folgt -->
+      <section class="panel" id="panel-live" data-tab-panel="live" aria-label="Live" hidden></section>
 
-      <!-- Request-Log (in beiden Reitern) → ExpansionTile -->
-      <details class="request-log" data-request-log>
-        <summary>Request-Log <span class="request-log__count">(<span data-log-count>0</span>)</span></summary>
-        <div class="request-log__body">
-          <div class="endpoint-card__actions">
-            <button class="btn btn--text" type="button" data-log-clear>
-              <span class="material-symbols-outlined icon icon--small" aria-hidden="true">delete</span>Log leeren
-            </button>
-          </div>
-          <div class="request-log__table">
-            <table>
-              <caption class="visually-hidden">Letzte 50 Requests, neueste zuerst</caption>
-              <thead>
-                <tr><th scope="col">Zeit</th><th scope="col">Endpunkt</th><th scope="col">Status</th><th scope="col">Dauer</th><th scope="col">Fehler</th></tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-            <p class="request-log__empty" data-log-empty>Noch keine Requests.</p>
-          </div>
-        </div>
-      </details>
+      <!-- Reiter "Historische Daten" – Inhalt folgt -->
+      <section class="panel" id="panel-history" data-tab-panel="history" aria-label="Historische Daten" hidden></section>
     </main>
 
     <!-- Werbefläche rechts (160 × 600) -->
@@ -167,20 +136,6 @@
     <a href="mobile-login.html">Mobile · Login</a>
     <a href="icons.html">Icons</a>
   </nav>
-
-
-  <!-- =================================================================
-       Willkommensdialog → showDialog(AlertDialog(...)), einmal pro Sitzung
-       ================================================================= -->
-  <div class="dialog-scrim" data-welcome-dialog hidden>
-    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="welcome-title" aria-describedby="welcome-text" tabindex="-1">
-      <h2 class="headline-small" id="welcome-title">Willkommen bei OpenGrid</h2>
-      <p class="body-medium dialog__text" id="welcome-text">[Ein Satz zur Seite]</p>
-      <div class="dialog__actions">
-        <button class="btn btn--text" type="button" data-dialog-close>Los geht's</button>
-      </div>
-    </div>
-  </div>
 
 </body>
 </html>
