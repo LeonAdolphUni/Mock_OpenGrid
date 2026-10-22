@@ -6,6 +6,3 @@ __pycache__/
 Thumbs.db
 desktop.ini
 .DS_Store
-
-# Erzeugte Screenshots (tools/screenshots.mjs)
-screenshots/
